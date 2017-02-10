@@ -452,6 +452,14 @@
 
 	var _Board2 = _interopRequireDefault(_Board);
 
+	var _Paddle = __webpack_require__(12);
+
+	var _Paddle2 = _interopRequireDefault(_Paddle);
+
+	var _Ball = __webpack_require__(13);
+
+	var _Ball2 = _interopRequireDefault(_Ball);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -466,7 +474,14 @@
 
 			this.gameElement = document.getElementById(this.element);
 
+			this.boardGap = 10;
+			this.paddleWidth = 8;
+			this.paddleHeight = 56;
+
 			this.board = new _Board2.default(this.width, this.height);
+
+			this.player1 = new _Paddle2.default(this.height, this.paddleWidth, this.paddleHeight, this.boardGap, (this.height - this.paddleHeight) / 2, _settings.KEYS.a, _settings.KEYS.z);
+			this.player2 = new _Paddle2.default(this.height, this.paddleWidth, this.paddleHeight, this.width - this.boardGap - this.paddleWidth, (this.height - this.paddleHeight) / 2, _settings.KEYS.up, _settings.KEYS.down);
 		}
 
 		_createClass(Game, [{
@@ -481,6 +496,8 @@
 				this.gameElement.appendChild(svg);
 
 				this.board.render(svg);
+				this.player1.render(svg);
+				this.player2.render(svg);
 			}
 		}]);
 
@@ -499,6 +516,14 @@
 	  value: true
 	});
 	var SVG_NS = exports.SVG_NS = 'http://www.w3.org/2000/svg';
+
+	var KEYS = exports.KEYS = {
+	  a: 65, // player 1 up key
+	  z: 90, // player 1 down key
+	  up: 38, // player 2 up key
+	  down: 40, // player 2 down key
+	  spaceBar: 32 // we'll use this later...
+	};
 
 /***/ },
 /* 11 */
@@ -539,7 +564,8 @@
 	      line.setAttributeNS(null, 'y2', this.height);
 	      line.setAttributeNS(null, 'stroke', '#fff');
 	      line.setAttributeNS(null, 'stroke-width', '4');
-	      line.setAttributeNS(null, 'stroke-dashedarray', '20, 15');
+	      line.setAttributeNS(null, 'stroke-dasharray', '20, 15');
+	      line.setAttributeNS(null, 'stroke-width', '4');
 
 	      svg.appendChild(rect);
 	      svg.appendChild(line);
@@ -550,6 +576,121 @@
 	}();
 
 	exports.default = Board;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _settings = __webpack_require__(10);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Paddle = function () {
+	    function Paddle(boardHeight, width, height, x, y, up, down) {
+	        var _this = this;
+
+	        _classCallCheck(this, Paddle);
+
+	        this.boardHeight = boardHeight;
+	        this.width = width;
+	        this.height = height;
+	        this.x = x;
+	        this.y = y;
+	        this.speed = 10;
+	        this.score = 0;
+
+	        document.addEventListener('keydown', function (event) {
+	            switch (event.keyCode) {
+	                case up:
+	                    _this.up();
+	                    break;
+	                case down:
+	                    _this.down();
+	                    break;
+	            }
+	        });
+	    }
+
+	    _createClass(Paddle, [{
+	        key: 'up',
+	        value: function up() {
+	            this.y = Math.max(0, this.y - this.speed);
+	        }
+	    }, {
+	        key: 'down',
+	        value: function down() {
+	            this.y = Math.min(this.boardHeight - this.height, this.y + this.speed);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render(svg) {
+	            var paddle = document.createElementNS(_settings.SVG_NS, 'rect');
+	            paddle.setAttributeNS(null, 'width', this.width);
+	            paddle.setAttributeNS(null, 'height', this.height);
+	            paddle.setAttributeNS(null, 'fill', '#765373');
+	            paddle.setAttributeNS(null, 'x', this.x);
+	            paddle.setAttributeNS(null, 'y', this.y);
+
+	            svg.appendChild(paddle);
+	        }
+	    }]);
+
+	    return Paddle;
+	}();
+
+	exports.default = Paddle;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _settings = __webpack_require__(10);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Ball = function () {
+	  function Ball(radius, boardWidth, boardHeight) {
+	    _classCallCheck(this, Ball);
+
+	    this.radius = radius;
+	    this.boardWidth = boardWidth;
+	    this.boardHeight = boardHeight;
+	    this.direction = 1;
+	  }
+
+	  _createClass(Ball, [{
+	    key: 'render',
+	    value: function render(svg) {
+	      var ball = document.createElementNS(_settings.SVG_NS, 'circle');
+	      paddle.setAttributeNS(null, 'r', this.radius);
+	      paddle.setAttributeNS(null, 'fill', '#ED6E46');
+	      paddle.setAttributeNS(null, 'x', this.x);
+	      paddle.setAttributeNS(null, 'y', this.y);
+	    }
+	  }]);
+
+	  return Ball;
+	}();
+	// <circle cx="256" cy="124" r="8" fill="#ED6E46" />
+
+
+	exports.default = Ball;
 
 /***/ }
 /******/ ]);
