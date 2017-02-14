@@ -23,6 +23,7 @@ export default class Game {
 		this.paddleHeight = 56;
 		this.radius = 8;
 		this.pause = false;
+		this.finalScore = 3;
 
 		this.board = new Board(this.width, this.height);
 		this.ball = new Ball(this.radius, this.width, this.height);

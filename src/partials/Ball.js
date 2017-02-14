@@ -96,7 +96,7 @@ export default class Ball {
         if (rightGoal) {
             this.goal(player1);
             this.direction = 1;
-            if (player1.score === 1) {
+            if (player1.score === 3) {
                 this.gameOver.play();
                 alert(`
                     Final Score: ${player1.score} - ${player2.score}
@@ -109,7 +109,7 @@ export default class Ball {
         } else if (leftGoal) {
             this.goal(player2);
             this.direction = -1;
-            if (player2.score === 1) {
+            if (player2.score === 3) {
                 this.gameOver.play();
                 alert(`
                     Final Score: ${player1.score} - ${player2.score}
