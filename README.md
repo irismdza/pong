@@ -39,3 +39,7 @@ The most difficult part of this project is still absorbing and understanding Jav
 **Player 2:**
 * ▲ : up
 * ▼: down
+
+**Spacebar**
+
+pause game
