@@ -19,5 +19,3 @@ export default class Score {
     svg.appendChild(text);
   }
 }
-
-    // <text x="215" y="30" font-size="30" font-family="Silkscreen Web" fill="#fff">0</text>
