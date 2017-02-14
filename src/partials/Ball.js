@@ -105,7 +105,6 @@ export default class Ball {
                 this.gameOver.play();
                 this.restart();
             }
-            console.log('player1: ' + player1.score)
         } else if (leftGoal) {
             this.goal(player2);
             this.direction = -1;
@@ -117,8 +116,6 @@ export default class Ball {
                     Click OK to Play Again`);
                 this.restart();
             }
-            console.log('player2: ' + player2.score)
-
         }
     }
 }
