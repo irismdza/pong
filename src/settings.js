@@ -5,5 +5,8 @@ export const KEYS = {
   z: 90,
   up: 38,
   down: 40,
-  spaceBar: 32
+  spaceBar: 32,
+
+  n: 78, // new ball
+  r: 82 // remove ball
 }

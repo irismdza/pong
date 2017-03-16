@@ -54,7 +54,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// create a game instance
 	var game = new _Game2.default('game', 512, 256);
 
 	(function gameLoop() {
@@ -485,9 +484,22 @@
 			this.paddleHeight = 56;
 			this.radius = 8;
 			this.pause = false;
+			this.finalScore = 3;
 
 			this.board = new _Board2.default(this.width, this.height);
 			this.ball = new _Ball2.default(this.radius, this.width, this.height);
+			this.ball2 = new _Ball2.default(this.radius, this.width, this.height);
+
+			document.addEventListener('keydown', function (event) {
+				switch (event.keyCode) {
+					case _settings.KEYS.n:
+						_this.ball2 = new _Ball2.default(8, _this.width, _this.height);
+						break;
+					case _settings.KEYS.r:
+						_this.ball2 = new _Ball2.default();
+						break;
+				}
+			});
 
 			this.score1 = new _Score2.default(this.width / 2 - 50, 30, 30);
 			this.score2 = new _Score2.default(this.width / 2 + 25, 30, 30);
@@ -523,6 +535,7 @@
 
 				this.board.render(svg);
 				this.ball.render(svg, this.player1, this.player2);
+				this.ball2.render(svg, this.player1, this.player2);
 
 				this.player1.render(svg);
 				this.player2.render(svg);
@@ -549,11 +562,14 @@
 	var SVG_NS = exports.SVG_NS = 'http://www.w3.org/2000/svg';
 
 	var KEYS = exports.KEYS = {
-	  a: 65, // player 1 up key
-	  z: 90, // player 1 down key
-	  up: 38, // player 2 up key
-	  down: 40, // player 2 down key
-	  spaceBar: 32 // we'll use this later...
+	  a: 65,
+	  z: 90,
+	  up: 38,
+	  down: 40,
+	  spaceBar: 32,
+
+	  n: 78, // new ball
+	  r: 82 // remove ball
 	};
 
 /***/ },
@@ -715,6 +731,7 @@
 	        this.boardHeight = boardHeight;
 	        this.direction = 1;
 	        this.ping = new Audio('public/sounds/pong-02.wav');
+	        this.gameOver = new Audio('public/sounds/pong-04.wav');
 
 	        this.reset();
 	    }
@@ -779,23 +796,15 @@
 	        }
 	    }, {
 	        key: 'goal',
-	        value: function goal(player, player1, player2) {
+	        value: function goal(player) {
 	            player.score++;
 	            this.reset();
-	            if (player.score >= 3) {
-	                if (player1.score > player2.score) {
-	                    console.log('player 1 wins');
-	                } else if (player2.score > player1.score) {
-	                    console.log('player2 wins');
-	                }
-	            }
 	        }
-
-	        //     goal(player) {
-	        //     player.score++;
-	        //     this.reset();
-	        // }
-
+	    }, {
+	        key: 'restart',
+	        value: function restart() {
+	            window.location.reload();
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render(svg, player1, player2) {
@@ -819,11 +828,20 @@
 	            if (rightGoal) {
 	                this.goal(player1);
 	                this.direction = 1;
-	                console.log('player1: ' + player1.score);
+	                if (player1.score === 40) {
+	                    this.gameOver.play();
+	                    alert('\n                    Final Score: ' + player1.score + ' - ' + player2.score + '\n                    Player 1 wins!\n                    Click OK to Play Again');
+	                    this.gameOver.play();
+	                    this.restart();
+	                }
 	            } else if (leftGoal) {
 	                this.goal(player2);
 	                this.direction = -1;
-	                console.log('player2: ' + player2.score);
+	                if (player2.score === 40) {
+	                    this.gameOver.play();
+	                    alert('\n                    Final Score: ' + player1.score + ' - ' + player2.score + '\n                    Player 2 wins!\n                    Click OK to Play Again');
+	                    this.restart();
+	                }
 	            }
 	        }
 	    }]);
@@ -875,9 +893,6 @@
 
 	  return Score;
 	}();
-
-	// <text x="215" y="30" font-size="30" font-family="Silkscreen Web" fill="#fff">0</text>
-
 
 	exports.default = Score;
 

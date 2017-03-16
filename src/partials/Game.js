@@ -27,6 +27,18 @@ export default class Game {
 
 		this.board = new Board(this.width, this.height);
 		this.ball = new Ball(this.radius, this.width, this.height);
+		this.ball2 = new Ball(this.radius, this.width, this.height);
+
+		document.addEventListener('keydown', event => {
+			switch (event.keyCode) {
+				case KEYS.n:
+					this.ball2 = new Ball(8, this.width, this.height);
+					break;
+				case KEYS.r:
+					this.ball2 = new Ball();
+					break;
+			}
+		});
 
 		this.score1 = new Score(this.width / 2 - 50, 30, 30);
 		this.score2 = new Score(this.width / 2 + 25, 30, 30);
@@ -76,6 +88,7 @@ export default class Game {
 
 		this.board.render(svg);
 		this.ball.render(svg, this.player1, this.player2);
+		this.ball2.render(svg, this.player1, this.player2);
 
 		this.player1.render(svg);
 		this.player2.render(svg);
