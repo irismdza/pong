@@ -1,17 +1,24 @@
-# Pong Wars
+# Summary
 
-A basic pong game built using SVGs, JavaScript, and absolutely no jQuery.
+Pong Wars: a basic pong game built with plain vanilla JavaScript.
 
-## Summary
+# Specifications
+* Uses SVGs to render pong game with board, paddles, and ball
+* First time working with object-oriented programming and classes
+* Uses ES2015 constructor and methods
+* First time using Webpack instead of Gulp to bundle and load code
+* Uses Babel to compile ES6 into ES5
+* Triggers audio on paddle bounce
+* Triggers new ball on keypress
+* Alerts winner at final score
 
-- Code-along style project in RED's Web Dev course.
-- First time using Webpack instead of Gulp to bundle and load code.
-- First time using Babel to compile ES6 into ES5.
-- First time working with object-oriented programming.
+# Challenges
+The most difficult thing was understanding where everything was pointing to, especially when using "this". There was a lot of code involved that was very new to me as I've never worked with JavaScript before.
 
-## Takeaways
+# Takeaways
+There is a lot of work that happens behind the scenes to build a simple pong game. It was also fascinating to learn how SVGs are actually built. I definitely want to continue practicing and understanding the language structure and syntax of vanilla JavaScript, because there's a lot of possibility and magic it can create.
 
-## Usage
+# Usage
 
 **Install:**
 
@@ -21,7 +28,7 @@ A basic pong game built using SVGs, JavaScript, and absolutely no jQuery.
 
 `> npm start`
 
-## Keys
+# Keys
 
 **Player 1:**
 * a: up
@@ -33,3 +40,7 @@ A basic pong game built using SVGs, JavaScript, and absolutely no jQuery.
 
 **Spacebar:**
 - pause game
+
+**Other**
+* n: trigger new ball
+* r: remove new ball
